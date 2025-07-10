@@ -1,4 +1,6 @@
 // index.js (backend)
+// Removida a tipagem errada "cconst" e corrigido para "const"
+
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -9,11 +11,12 @@ app.use(cors());
 
 const server = http.createServer(app);
 
-cconst io = new Server(server, {
+// CORREÇÃO: trocar "cconst" por "const" na instância do Socket.IO
+const io = new Server(server, {
   cors: {
     origin: [
-      'https://chatnewchat-999.onrender.com',      // URL do frontend
-      'https://novochatchat-p67l.onrender.com',    // URL antiga (manter por compatibilidade)
+      'https://chatnewchat-999.onrender.com',      // frontend em produção
+      'https://novochatchat-p67l.onrender.com',    // URL antiga (compatibilidade)
       'http://localhost:3000'                      // desenvolvimento local
     ],
     methods: ['GET', 'POST', 'OPTIONS'],
@@ -21,7 +24,6 @@ cconst io = new Server(server, {
   }
 });
 
-// Declaração correta da variável users
 const users = new Set();
 
 io.on('connection', (socket) => {
@@ -38,7 +40,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat message', (message) => {
-    // mensagem de texto
     io.emit('chat message', {
       type: 'chat',
       text: message,
@@ -46,12 +47,9 @@ io.on('connection', (socket) => {
     });
   });
 
-  // ===== Handler de mídia (imagem, vídeo, áudio) =====
   socket.on('media message', (media) => {
-    // media = { user, type, data (base64), fileName, fileType }
     io.emit('media message', media);
   });
-  // ================================================
 
   socket.on('disconnect', () => {
     if (socket.nickname) {
