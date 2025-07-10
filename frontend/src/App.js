@@ -7,8 +7,7 @@ import OperatorBot from "./OperatorBot";
 import { io } from "socket.io-client";
 
 // DEFINIÇÃO CORRETA DA URL do servidor Socket.IO
-const BACKEND_URL = "https://chatnewchat-2999.onrender.com";
-const socket = io(BACKEND_URL);
+const socket = io("https://chatnewchat-2999.onrender.com");
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
