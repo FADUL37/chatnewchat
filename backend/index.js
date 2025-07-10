@@ -7,6 +7,8 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
+const server = http.createServer(app);  // ← ESTA LINHA ESTAVA FALTANDO!
+
 const io = new Server(server, {
   cors: {
     origin: [
@@ -18,7 +20,7 @@ const io = new Server(server, {
     credentials: true
   }
 });
-const users = new Set();
+// ... existing code ...const users = new Set();
 
 io.on('connection', (socket) => {
   console.log('✅ Usuário conectado:', socket.id);
