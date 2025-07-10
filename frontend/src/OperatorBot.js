@@ -1,6 +1,6 @@
 // src/OperatorBot.js
 import React, { useState, useRef, useEffect } from "react";
-import { BotIcon } from "lucide-react";
+import { RiRobotFill } from "react-icons/ri";
 import { operadorasData } from "./operadorasData.js";
 
 /**
@@ -130,7 +130,7 @@ export default function OperatorBot() {
           className="p-3 rounded-full bg-gradient-to-br from-green-400 to-blue-500 text-white shadow-lg hover:scale-110 transition-transform"
           aria-label="Abrir Chatbot"
         >
-          <BotIcon className="w-7 h-7" />
+          <RiRobotFill className="w-7 h-7" />
         </button>
 
         {open && (
