@@ -4,9 +4,8 @@ import "./App.css";
 import OperatorBot from "./OperatorBot";
 import { io } from "socket.io-client";
 
-// Detecta automaticamente o ambiente
-const BACKEND_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://chatnewchat-rz3h.onrender.com'  // URL do backend no Render
+/const BACKEND_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://chatnewchat-2999.onrender.com'  // Nova URL do backend no Render
   : 'http://localhost:3001';                 // URL local para desenvolvimento
 
 const socket = io(BACKEND_URL);
