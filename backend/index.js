@@ -7,12 +7,12 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
-const server = http.createServer(app);  // ← ESTA LINHA ESTAVA FALTANDO!
+const server = http.createServer(app);
 
-const io = new Server(server, {
+cconst io = new Server(server, {
   cors: {
     origin: [
-      'https://chatnewchat-999.onrender.com',      // URL correta do frontend
+      'https://chatnewchat-999.onrender.com',      // URL do frontend
       'https://novochatchat-p67l.onrender.com',    // URL antiga (manter por compatibilidade)
       'http://localhost:3000'                      // desenvolvimento local
     ],
@@ -20,7 +20,9 @@ const io = new Server(server, {
     credentials: true
   }
 });
-// ... existing code ...const users = new Set();
+
+// Declaração correta da variável users
+const users = new Set();
 
 io.on('connection', (socket) => {
   console.log('✅ Usuário conectado:', socket.id);
