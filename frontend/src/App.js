@@ -4,7 +4,12 @@ import "./App.css";
 import OperatorBot from "./OperatorBot";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3001");
+// Detecta automaticamente o ambiente
+const BACKEND_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://chatnewchat-rz3h.onrender.com'  // URL do backend no Render
+  : 'http://localhost:3001';                 // URL local para desenvolvimento
+
+const socket = io(BACKEND_URL);
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
