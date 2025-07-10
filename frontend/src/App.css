@@ -1,0 +1,2610 @@
+.chatbot-fab {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: linear-gradient(90deg, #4f46e5 60%, #38bdf8 100%);
+  color: #fff;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  box-shadow: 0 4px 16px rgba(56,189,248,0.18);
+  cursor: pointer;
+  z-index: 999;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.chatbot-fab:hover {
+  box-shadow: 0 8px 32px rgba(56,189,248,0.28);
+  transform: scale(1.08);
+}
+
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  margin: 0;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.chat-container.wide {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  width: 900px;
+  max-width: 98vw;
+  min-height: 800px;
+  padding: 24px 16px 16px 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f7f9fb;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  max-height: 900px;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #4f46e5 #e0e7ef;
+}
+
+.messages::-webkit-scrollbar {
+  width: 8px;
+}
+.messages::-webkit-scrollbar-thumb {
+  background: #4f46e5;
+  border-radius: 8px;
+}
+.messages::-webkit-scrollbar-track {
+  background: #e0e7ef;
+  border-radius: 8px;
+}
+
+.message {
+  background: #e3eafc;
+  color: #222;
+  padding: 10px 16px;
+  border-radius: 12px;
+  align-self: flex-start;
+  max-width: 80%;
+  word-break: break-word;
+  box-shadow: 0 2px 8px rgba(100, 120, 255, 0.06);
+}
+
+.bot-message, .operator-bot-message {
+  background: #e0e7ef;
+  color: #22223b;
+  border-radius: 8px 8px 8px 0;
+  padding: 10px 14px;
+  margin: 8px 0;
+  word-break: break-word;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.05);
+}
+
+.user-message {
+  background: #4f46e5;
+  color: #fff;
+  border-radius: 8px 8px 0 8px;
+  padding: 10px 14px;
+  margin: 8px 0;
+  align-self: flex-end;
+  word-break: break-word;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.08);
+}
+
+.input-area {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  gap: 8px;
+  background: #f0f4f8;
+  border-top: 1px solid #e3eafc;
+  border-radius: 0 0 18px 18px;
+}
+
+.input-area input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #c3cfe2;
+  outline: none;
+  font-size: 1em;
+  background: #fff;
+  color: #222;
+}
+
+.input-area button, .upload-btn {
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin: 0 2px;
+}
+.input-area button:hover, .upload-btn:hover {
+  background: #5548c8;
+  transform: scale(1.08);
+}
+
+.upload-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  cursor: pointer;
+  margin: 0 4px;
+}
+.upload-btn input[type="file"] {
+  display: none;
+}
+
+/* Modo escuro */
+.App.dark {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+}
+.App.dark .chat-container.wide {
+  background: #23272f;
+  color: #fff;
+}
+.App.dark .messages {
+  background: #23272f;
+}
+.App.dark .message {
+  background: #393e4f;
+  color: #fff;
+}
+.App.dark .input-area {
+  background: #282c34;
+  border-top: 1px solid #393e4f;
+}
+.App.dark .input-area input[type="text"] {
+  background: #393e4f;
+  color: #fff;
+  border: 1px solid #6c63ff;
+}
+.App.dark .input-area button, .App.dark .upload-btn {
+  background: #6c63ff;
+  color: #fff;
+}
+.App.dark .input-area button:hover, .App.dark .upload-btn:hover {
+  background: #5548c8;
+}
+
+.nickname-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #4f46e5 0%, #38bdf8 100%);
+}
+
+.nickname-card {
+  background: #fff;
+  padding: 40px 32px 32px 32px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
+  animation: fadeIn 0.7s cubic-bezier(.4,0,.2,1);
+}
+.nickname-card h2 {
+  margin-bottom: 8px;
+  color: #4f46e5;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.nickname-card p {
+  margin-bottom: 18px;
+  color: #64748b;
+}
+.nickname-input {
+  padding: 12px 16px;
+  border: 2px solid #4f46e5;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  outline: none;
+  margin-bottom: 18px;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.06);
+}
+.nickname-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px #38bdf833;
+}
+.nickname-btn {
+  background: linear-gradient(90deg, #4f46e5 60%, #38bdf8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(56,189,248,0.10);
+  transition: background 0.2s, transform 0.2s;
+}
+.nickname-btn:hover {
+  background: linear-gradient(90deg, #38bdf8 0%, #4f46e5 100%);
+  transform: translateY(-2px) scale(1.03);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 600px) {
+  .chat-container.wide {
+    width: 100vw;
+    min-height: 100vh;
+    border-radius: 0;
+    padding: 8px 2px 2px 2px;
+  }
+  .messages {
+    max-height: 60vh;
+    padding: 8px 2px;
+  }
+  .input-area {
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 2px;
+    border-radius: 0 0 12px 12px;
+  }
+  .message, .user-message, .bot-message, .operator-bot-message {
+    max-width: 98vw;
+    font-size: 0.98em;
+    padding: 8px 8px;
+  }
+  .chatbot-fab {
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .chat-container.wide {
+    width: 98vw;
+    min-height: 80vh;
+    padding: 12px 4px 4px 4px;
+  }
+}
+
+@media (max-width: 700px) {
+  .chat-container, .chat-container.wide {
+    width: 100% !important;
+    right: 0 !important;
+    left: 0 !important;
+    border-radius: 0 !important;
+    max-width: 100vw !important;
+  }
+.op-btn {
+  background: linear-gradient(90deg, #4f8cff 0%, #6f6fff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 20px;
+  margin: 4px 4px 8px 0;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.op-btn:hover {
+  background: linear-gradient(90deg, #6f6fff 0%, #4f8cff 100%);
+}
+}
+.operator-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(56,189,248,0.10);
+  margin-bottom: 18px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  overflow: hidden;
+}
+.operator-card.expanded {
+  box-shadow: 0 8px 32px rgba(56,189,248,0.18);
+  transform: scale(1.01);
+}
+.operator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  background: linear-gradient(90deg, #4f46e5 60%, #38bdf8 100%);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 450;
+}
+.operator-details {
+  padding: 18px 24px;
+  background: #f7f9fb;
+  color: #22223b;
+  max-height: 350px;
+  overflow-y: auto;
+  transition: max-height 0.3s;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.operator-header button:hover {
+  background: #38bdf8;
+  color: #fff;
+}
+.operator-header button {
+  background: #fff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+};
+/* Dark Mode */
+.App.dark { background: #2c2c2c; color: #e0e0e0; }
+
+/* Header com ações */
+.chat-wrapper { display: flex; flex-direction: column; height: 100vh; }
+.chat-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.App.dark .chat-header { background: #444; }
+.chat-actions button { background: none; border: none; font-size: 1rem; cursor: pointer; margin-left: 0.5rem; }
+
+/* Logout button */
+.logout-button { padding: 0.5rem 1rem; background: linear-gradient(145deg, #b84b4b, #481818); color: #fff; border: none; border-radius: 8px; box-shadow: 5px 5px 15px rgba(0,0,0,0.2), -5px -5px 15px rgba(255,255,255,0.1); transition: transform 0.2s; }
+.logout-button:hover { transform: translateY(-2px) scale(1.02); }
+
+/* Theme toggle button */
+.theme-button { padding: 0.5rem; background: linear-gradient(145deg, #4b6cb7, #182848); color: #fff; border: none; border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+.theme-button:hover { transform: translateY(-2px); }
+
+/* Chat input e botões */
+.chat-input { flex-grow: 1; padding: 0.75rem 1rem; border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-right: 0.5rem; transition: transform 0.2s; }
+.chat-input:focus { outline: none; transform: translateY(-2px); }
+.send-button, .audio-toggle-button { padding: 0.75rem 1.25rem; border: none; border-radius: 8px; background: linear-gradient(145deg, #4b6cb7, #182848); color: #fff; box-shadow: 5px 5px 15px rgba(0,0,0,0.2), -5px -5px 15px rgba(255,255,255,0.1); cursor: pointer; transition: transform 0.2s; margin-left: 0.5rem; }
+.send-button:hover, .audio-toggle-button:hover { transform: translateY(-2px) scale(1.02); }
+
+@media (max-width: 480px) {
+  .chat-header { flex-direction: column; align-items: flex-start; }
+  .chat-actions { margin-top: 0.5rem; }
+}
+/* Neon text effect */
+.neon-text {
+  color: #0ff;
+  text-shadow:
+     0 0 4px #0ff,
+     0 0 8px #0ff,
+     0 0 12px #05e5ff;
+}
+
+/* Neon input */
+.neon-input {
+  background: #111;
+  border: 2px solid #0ff;
+  border-radius: 8px;
+  color: #0ff;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 0 8px #0ff inset, 0 0 12px #0ff;
+  transition: box-shadow 0.3s;
+  font-weight: 500;
+}
+.neon-input::placeholder {
+  color: #05e5ff;
+}
+.neon-input:focus {
+  outline: none;
+  box-shadow: 0 0 12px #0ff inset, 0 0 20px #0ff, 0 0 30px #05e5ff;
+}
+
+/* Futuristic 3D neon button */
+.neon-btn {
+  position: relative;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background: linear-gradient(45deg, #00e5ff, #005eff);
+  border: none;
+  border-radius: 12px;
+  box-shadow:
+    0 0 8px #00e5ff,
+    0 0 16px #005eff,
+    inset 0 -2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.neon-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+.neon-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+.neon-btn::before {
+  content: '⚡';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  color: #fff;
+  font-size: 2rem;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.neon-btn:hover::before {
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 0.5;
+}
+
+/* Layout ajustes */
+.nickname-container, .input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.chat-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .neon-input, .neon-btn {
+    max-width: 280px;
+    font-size: 0.9rem;
+  }
+}
+/* Reset e Fullscreen */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body, #root, .App { height: 100%; width: 100%; }
+.App { display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at top right, #0a0a0a, #000); }
+
+/* Card Base */
+.card { background: rgba(10, 10, 10, 0.9); border-radius: 16px; padding: 2rem; box-shadow: 0 0 20px rgba(0,255,255,0.6); max-width: 380px; width: 90%; }
+.chat-card { display: flex; flex-direction: column; }
+.chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+
+/* Neon Text */
+.neon-text { color: #0ff; text-shadow: 0 0 6px #0ff, 0 0 12px #05e5ff; }
+
+/* Neon Input */
+.neon-input { background: transparent; border: 2px solid #0ff; border-radius: 8px; color: #0ff; padding: 0.75rem 1rem; width: 100%; margin-bottom: 1rem; box-shadow: 0 0 8px #0ff inset; font-weight: 500; }
+.neon-input::placeholder { color: rgba(5,229,255,0.7); }
+.neon-input:focus { outline: none; box-shadow: 0 0 16px #0ff inset, 0 0 20px #05e5ff; }
+
+/* Neon Button */
+.neon-btn { position: relative; padding: 0.75rem 1.5rem; font-weight: 600; background: linear-gradient(135deg, #00e5ff, #005eff); color: #fff; border: none; border-radius: 12px; box-shadow: 0 4px 10px #005eff, inset 0 -2px 6px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.2s; margin-top: 0.5rem; }
+.neon-btn:hover { transform: translateY(-3px) scale(1.05); }
+.neon-btn:active { transform: translateY(1px) scale(0.98); }
+.neon-btn.small { padding: 0.5rem 1rem; font-size: 0.9rem; }
+
+/* Messages Area */
+.messages { flex-grow: 1; overflow-y: auto; margin-bottom: 1rem; max-height: 300px; }
+.message { margin-bottom: 0.5rem; display: flex; }
+
+/* Input Row */
+.input-row { display: flex; align-items: center; gap: 0.5rem; }
+.flex { flex-grow: 1; }
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .card { padding: 1.5rem; }
+  .neon-input, .neon-btn { font-size: 0.9rem; }
+}
+/* Diminuir glow neon */
+.neon-text {
+  color: #0ff;
+  text-shadow: 0 0 3px #0ff, 0 0 6px #05e5ff; /* menos intenso */
+}
+
+/* Toggle de tema */
+.mode-toggle-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.mode-toggle-btn {
+  background: transparent;
+  border: 2px solid #0ff;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: #0ff;
+  box-shadow: 0 0 6px #0ff;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.mode-toggle-btn:hover {
+  box-shadow: 0 0 12px #0ff;
+  transform: translateY(-2px);
+}
+
+/* Dark mode (exemplo: ajuste conforme seu tema) */
+.App.dark {
+  background: #111;
+  color: #ddd;
+}
+/* App.css */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body, #root, .App { height: 100%; width: 100%; }
+.App {
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at top right, #0a0a0a, #000);
+}
+.card {
+  background: rgba(10, 10, 10, 0.9);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0,255,255,0.6);
+}
+.chat-card {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  max-width: 900px;
+  height: 85vh;
+}
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+.message {
+  margin-bottom: 0.75rem;
+}
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.3);
+  border-top: 1px solid #0ff;
+}
+.neon-input.flex {
+  flex-grow: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid #0ff;
+  border-radius: 8px;
+  background: transparent;
+  color: #0ff;
+  box-shadow: 0 0 10px #0ff inset;
+}
+.send-btn, .record-btn {
+  flex-shrink: 0;
+}
+.send-btn {
+  min-width: 80px;
+}
+.record-btn {
+  min-width: 120px;
+}
+.file-label {
+  position: relative;
+  cursor: pointer;
+}
+.file-label input { display: none; }
+
+/* Neon and modal elements */
+.neon-text { color: #0ff; text-shadow: 0 0 3px #0ff, 0 0 6px #05e5ff; }
+.neon-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #00e5ff, #005eff);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px #005eff;
+  transition: transform 0.2s;
+}
+.neon-btn:hover { transform: translateY(-3px) scale(1.05); }
+.neon-btn.small { padding: 0.5rem 1rem; font-size: 0.9rem; }
+
+.mode-toggle-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.mode-toggle-btn {
+  background: transparent;
+  border: 2px solid #0ff;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: #0ff;
+  box-shadow: 0 0 6px #0ff;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.mode-toggle-btn:hover { box-shadow: 0 0 12px #0ff; transform: translateY(-2px); }
+
+/* Media elements */
+.media-image, .media-video, .media-audio {
+  max-width: 100%;
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 600px) {
+  .chat-card { width: 95vw; height: 90vh; }
+  .input-row { flex-direction: column; gap: 0.5rem; }
+  .send-btn, .record-btn { width: 100%; }
+}
+.media-img {
+  max-width: 200px;
+  max-height: 150px;
+  object-fit: contain;
+  margin: 0.5rem 0;
+}
+.media-video {
+  max-width: 250px;
+  max-height: 150px;
+  object-fit: contain;
+  margin: 0.5rem 0;
+}
+.media-audio {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+/* Adicione estes estilos ao seu App.css existente */
+
+/* Container principal do chat */
+.chat-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Painel de usuários online */
+.users-panel {
+  width: 250px;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid #00ffff;
+  border-radius: 10px;
+  padding: 15px;
+  height: fit-content;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.users-header {
+  margin-bottom: 15px;
+  text-align: center;
+  border-bottom: 1px solid #00ffff;
+  padding-bottom: 10px;
+}
+
+.users-header h3 {
+  margin: 0;
+  font-size: 1.1em;
+}
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.user-item:hover {
+  background: rgba(0, 255, 255, 0.15);
+  border-color: #00ffff;
+}
+
+.user-item.current-user {
+  background: rgba(0, 255, 0, 0.1);
+  border-color: #00ff00;
+}
+
+.user-status {
+  font-size: 0.8em;
+}
+
+.user-name {
+  flex: 1;
+  font-weight: bold;
+  color: #00ffff;
+}
+
+.you-label {
+  font-size: 0.8em;
+  color: #00ff00;
+  font-style: italic;
+}
+
+/* Ajustar o chat principal */
+.chat-card {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Mensagens de info (entrada/saída de usuários) */
+.info-message {
+  color: #ffaa00;
+  font-style: italic;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .chat-container {
+    flex-direction: column;
+  }
+  
+  .users-panel {
+    width: 100%;
+    max-height: 200px;
+    order: -1;
+  }
+  
+  .users-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .user-item {
+    flex: 0 0 auto;
+  }
+}
+
+/* Modo escuro para usuários */
+.App.dark .users-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #ffffff;
+}
+
+.App.dark .user-item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.App.dark .user-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+}
+
+.App.dark .user-item.current-user {
+  background: rgba(0, 255, 0, 0.1);
+  border-color: #00ff00;
+}
+
+.App.dark .user-name {
+  color: #ffffff;
+}
