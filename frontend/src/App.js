@@ -1,15 +1,15 @@
-// App.js (frontend React)
-// Conecta-se ao backend correto conforme ambiente.
-// :contentReference[oaicite:1]{index=1}
-
 import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import OperatorBot from "./OperatorBot";
 import { io } from "socket.io-client";
 
-// USE ESTA URL EM PRODUÇÃO; em dev, substitua por "http://localhost:3001" ou defina
-// uma variável de ambiente REACT_APP_BACKEND_URL.
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "https://chatnewchat-2999.onrender.com";
+// Define BACKEND_URL: use env variable if set, else detect local vs production
+const BACKEND_URL =
+  process.env.REACT_APP_BACKEND_URL ||
+  (window.location.hostname === "localhost"
+    ? "http://localhost:3001"
+    : "https://chatnewchat-2999.onrender.com");
+
 const socket = io(BACKEND_URL, {
   transports: ["websocket"]
 });
@@ -29,15 +29,14 @@ function App() {
   const audioChunksRef = useRef([]);
   const messagesEndRef = useRef(null);
 
-  // Inscreve e limpa listeners para mensagens e lista de usuários
   useEffect(() => {
-    socket.off("chat message").on("chat message", msg => {
+    socket.on("chat message", msg => {
       setMessages(prev => [...prev, msg]);
     });
-    socket.off("media message").on("media message", msg => {
+    socket.on("media message", msg => {
       setMessages(prev => [...prev, msg]);
     });
-    socket.off("user list").on("user list", users => {
+    socket.on("user list", users => {
       setOnlineUsers(users);
     });
     return () => {
@@ -47,19 +46,16 @@ function App() {
     };
   }, []);
 
-  // Auto-scroll das mensagens
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Envia texto
   const sendMessage = () => {
     if (!input.trim()) return;
     socket.emit("chat message", input.trim());
     setInput("");
   };
 
-  // Upload de mídia
   const handleMediaSelect = e => {
     const file = e.target.files[0];
     if (!file) return;
@@ -83,7 +79,6 @@ function App() {
     }
   };
 
-  // Gravação de áudio
   const startRecording = () => {
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(stream => {
@@ -102,10 +97,12 @@ function App() {
       })
       .catch(() => alert("Erro ao acessar o microfone."));
   };
+
   const stopRecording = () => {
     mediaRecorderRef.current?.stop();
     setRecording(false);
   };
+
   const sendRecordedAudio = () => {
     if (!audioPreview) return;
     const reader = new FileReader();
@@ -123,7 +120,6 @@ function App() {
     reader.readAsDataURL(audioPreview.blob);
   };
 
-  // Tela de apelido
   if (!nicknameSet) {
     return (
       <div className={darkMode ? "App dark" : "App"}>
@@ -132,19 +128,24 @@ function App() {
         </button>
         <div className="login-card">
           <h1>Digite seu apelido</h1>
-          <input value={nickname} onChange={e => setNickname(e.target.value)} placeholder="Seu apelido" />
+          <input
+            value={nickname}
+            onChange={e => setNickname(e.target.value)}
+            placeholder="Seu apelido"
+          />
           <button onClick={() => {
             if (nickname.trim()) {
               socket.emit("set nickname", nickname.trim());
               setNicknameSet(true);
             }
-          }}>Entrar</button>
+          }}>
+            Entrar
+          </button>
         </div>
       </div>
     );
   }
 
-  // Chat principal
   return (
     <div className={darkMode ? "App dark" : "App"}>
       <button className="mode-toggle" onClick={() => setDarkMode(m => !m)}>
@@ -156,7 +157,9 @@ function App() {
           <button onClick={() => {
             socket.disconnect();
             window.location.reload();
-          }}>Sair</button>
+          }}>
+            Sair
+          </button>
         </header>
         <section className="messages">
           {messages.map((msg, i) => (
