@@ -15,11 +15,12 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-      'https://chatnewchat-999.onrender.com',      // frontend em produção
-      'https://novochatchat-p67l.onrender.com',    // URL antiga (compatibilidade)
-      'http://localhost:3000'                      // desenvolvimento local
+      'https://chatnewchat-999.onrender.com',
+      'https://novochatchat-p67l.onrender.com',
+      'https://chatnewchat-2999.onrender.com',  // <-- novo domínio
+      'http://localhost:3000'
     ],
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET','POST','OPTIONS'],
     credentials: true
   }
 });
