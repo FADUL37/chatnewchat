@@ -1,258 +1,183 @@
-/* src/App.css */
+/* src/App.css - Transylvania Futuristic 3D Design */
 
-/* Fonte Pacman-pixel style */
-@import url("https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&display=swap");
 
 :root {
-  --bg-dark: #000;
-  --panel: rgba(20,20,20,0.8);
-  --accent: #00e5ff;       /* Neon azul/turquesa */
-  --accent-light: rgba(0,229,255,0.2);
+  --bg-dark: #0b0017;
+  --panel-bg: rgba(20,5,40,0.9);
+  --accent: #bb00ff;
+  --accent-light: rgba(187,0,255,0.3);
   --text: #e0e0e0;
+  --btn-bg1: #35003d;
+  --btn-bg2: #15001a;
+  --btn-shadow-dark: 5px 5px 15px rgba(0,0,0,0.7) inset;
+  --btn-shadow-light: -5px -5px 15px rgba(255,0,255,0.2) inset;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Global reset & body */
+* { margin:0; padding:0; box-sizing:border-box; }
 html, body, #root {
-  height: 100%;
+  height:100%;
+  font-family:'Unbounded', cursive;
   background: var(--bg-dark);
-  font-family: "Press Start 2P", monospace;
   color: var(--text);
+  overflow:hidden;
 }
 
-/* Botão Modo */
+.App { display:flex; flex-direction:column; height:100%; }
+.App.dark { background: var(--bg-dark); }
+
+/* 3D Button Base */
+.btn-3d {
+  background: linear-gradient(145deg, var(--btn-bg1), var(--btn-bg2));
+  border:none;
+  border-radius:12px;
+  padding:0.75rem 1.5rem;
+  color: var(--text);
+  font-size:0.85rem;
+  font-weight:700;
+  box-shadow:
+    var(--btn-shadow-dark),
+    var(--btn-shadow-light);
+  cursor:pointer;
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.btn-3d:hover {
+  transform:translateY(-3px);
+  box-shadow:
+    5px 5px 15px rgba(0,0,0,0.9) inset,
+    -5px -5px 15px rgba(255,0,255,0.4) inset;
+}
+.btn-3d:active {
+  transform:translateY(0);
+  box-shadow:
+    inset 5px 5px 15px rgba(0,0,0,0.9),
+    inset -5px -5px 15px rgba(255,0,255,0.4);
+}
+
+/* Mode Toggle */
 .mode-toggle {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: transparent;
-  border: 2px solid var(--accent);
-  color: var(--accent);
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: background 0.2s;
+  position:absolute; top:1rem; right:1rem;
+  background:transparent;
+  border:2px solid var(--accent);
+  color:var(--accent);
+  border-radius:8px;
+  padding:0.5rem 1rem;
+  transition:background 0.2s;
+  z-index:10;
 }
-.mode-toggle:hover {
-  background: var(--accent-light);
-}
+.mode-toggle:hover { background:var(--accent-light); }
 
-/* Tela de login */
-.login-card {
-  background: var(--panel);
-  border: 2px solid var(--accent);
-  padding: 2rem;
-  margin: 10vh auto;
-  border-radius: 0.5rem;
-  text-align: center;
-  width: 300px;
-  box-shadow: 0 0 20px var(--accent-light);
-}
-.login-card input,
-.login-card button {
-  font-family: inherit;
-  font-size: 0.75rem;
-}
-.login-card input {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  background: transparent;
-  border: 2px solid var(--accent);
-  color: var(--text);
-  border-radius: 0.25rem;
-}
-.login-card button {
-  width: 100%;
-  padding: 0.75rem;
-  background: var(--accent);
-  border: none;
-  color: #000;
-  cursor: pointer;
-}
-.login-card button:hover {
-  background: #00ffff;
-}
-
-/* Container principal (chat + chatbot) */
+/* Main container */
 .main-container {
-  display: flex;
-  width: 90%;
-  max-width: 1100px;
-  height: 80vh;
-  margin: 2rem auto;
-  background: var(--panel);
-  border: 2px solid var(--accent);
-  border-radius: 0.5rem;
-  box-shadow: 0 0 30px var(--accent-light);
-  overflow: hidden;
+  flex:1;
+  display:flex;
+  margin:2rem;
+  background: var(--panel-bg);
+  border:2px solid var(--accent);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 0 30px var(--accent-light);
 }
 
-/* Chat + lista de usuários */
+/* Chat wrapper */
 .chat-wrapper {
-  display: flex;
-  flex: 2;
-  flex-direction: column;
+  display:flex;
+  flex-direction:column;
+  width:70%;
 }
 
-/* Lista de usuários online */
 .online-users {
-  background: var(--panel);
-  border-bottom: 2px solid var(--accent);
-  padding: 1rem;
+  background: var(--panel-bg);
+  border-bottom:2px solid var(--accent);
+  padding:1rem;
 }
 .online-users h3 {
-  font-size: 0.8rem;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
+  color:var(--accent);
+  margin-bottom:0.5rem;
 }
-.online-users ul {
-  list-style: none;
-  max-height: 8rem;
-  overflow-y: auto;
-}
+.online-users ul { list-style:none; max-height:10rem; overflow-y:auto; }
 .online-users li {
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  background: #111;
-  border: 1px solid var(--accent);
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  text-align: center;
+  background: #15001a;
+  border:1px solid var(--accent);
+  border-radius:8px;
+  margin-bottom:0.5rem;
+  padding:0.5rem;
+  text-align:center;
+  font-size:0.8rem;
 }
 
-/* Painel de Chat */
 .chat-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  flex:1;
+  display:flex;
+  flex-direction:column;
 }
-
-/* Header do chat */
 .chat-panel header {
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid var(--accent);
-  background: rgba(0,0,0,0.5);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem;
+  background:rgba(0,0,0,0.5);
+  border-bottom:2px solid var(--accent);
 }
-.chat-panel header h2 {
-  font-size: 0.9rem;
-}
-.chat-panel header button {
-  background: var(--accent);
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.75rem;
-}
-.chat-panel header button:hover {
-  background: #00ffff;
-}
+.chat-panel header h2 { font-size:1rem; }
+.chat-panel header button { margin-left:1rem; }
 
-/* Área de mensagens */
 .messages {
-  flex: 1;
-  padding: 1rem;
-  overflow-y: auto;
-  background: rgba(0,0,0,0.3);
+  flex:1;
+  padding:1rem;
+  overflow-y:auto;
+  background:rgba(0,0,0,0.3);
 }
 .messages .message,
 .messages .info {
-  margin-bottom: 0.75rem;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  word-wrap: break-word;
+  margin-bottom:0.75rem;
+  padding:0.75rem;
+  border-radius:8px;
+  word-wrap:break-word;
 }
 .messages .message {
-  background: rgba(0,229,255,0.1);
-  border-left: 4px solid var(--accent);
+  background:rgba(187,0,255,0.1);
+  border-left:4px solid var(--accent);
 }
 .messages .info {
-  background: rgba(255,255,255,0.1);
-  border-left: 4px solid #888;
-  font-style: italic;
-}
-.messages img,
-.messages video,
-.messages audio {
-  max-width: 100%;
-  border: 1px solid var(--accent);
-  border-radius: 0.25rem;
+  background:rgba(255,255,255,0.1);
+  border-left:4px solid #888;
+  font-style:italic;
 }
 
-/* Footer com input e botões */
 footer {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  border-top: 2px solid var(--accent);
-  background: rgba(0,0,0,0.5);
+  display:flex;
+  align-items:center;
+  padding:1rem;
+  background:rgba(0,0,0,0.5);
+  border-top:2px solid var(--accent);
 }
 footer input[type="text"] {
-  flex: 1;
-  padding: 0.75rem;
-  margin-right: 0.5rem;
-  background: transparent;
-  border: 2px solid var(--accent);
-  border-radius: 0.25rem;
-  color: var(--text);
-  font-family: inherit;
-  font-size: 0.75rem;
+  flex:1;
+  background: #15001a;
+  border:2px solid var(--accent);
+  border-radius:12px;
+  padding:0.75rem;
+  margin-right:0.5rem;
+  color:var(--text);
+  font-size:0.8rem;
 }
-footer button {
-  margin-right: 0.5rem;
-  background: var(--accent);
-  border: none;
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.75rem;
-}
-footer button:hover {
-  background: #00ffff;
-}
-.file-label {
-  cursor: pointer;
-  margin-right: 0.5rem;
-}
-.preview {
-  display: flex;
-  align-items: center;
-  margin-right: 0.5rem;
-}
-.preview img,
-.preview video {
-  max-height: 3rem;
-  margin-right: 0.5rem;
-}
-.preview audio {
-  margin-right: 0.5rem;
-}
+footer .btn-3d { margin-right:0.5rem; }
 
-/* Chatbot (OperatorBot) à direita */
+/* Chatbot wrapper */
 .operator-bot-wrapper {
-  flex: 1;
-  background: var(--panel);
-  padding: 1rem;
-  border-left: 2px solid var(--accent);
-  overflow-y: auto;
+  width:30%;
+  background: var(--panel-bg);
+  border-left:2px solid var(--accent);
+  overflow-y:auto;
+  padding:1rem;
 }
 
-/* Responsivo: empilha em telas muito pequenas */
+/* Responsive for mobile */
 @media (max-width: 768px) {
-  .main-container {
-    flex-direction: column;
-    height: auto;
-    margin: 1rem;
-  }
-  .operator-bot-wrapper {
-    border-left: none;
-    border-top: 2px solid var(--accent);
-  }
+  .main-container { flex-direction:column; }
+  .chat-wrapper { width:100%; }
+  .operator-bot-wrapper { width:100%; border-left:none; border-top:2px solid var(--accent); }
 }
+
