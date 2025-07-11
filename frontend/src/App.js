@@ -7,7 +7,7 @@ import "./App.css";
 import OperatorBot from "./OperatorBot";
 import { io } from "socket.io-client";
 
-// Usa apenas a URL de produção ou variável de ambiente
+/// Usa apenas a URL de produção ou variável de ambiente
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "https://chatnewchat-2999.onrender.com";
 // Força somente WebSocket, sem fallback para polling
 const socket = io(BACKEND_URL, {
