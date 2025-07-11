@@ -251,3 +251,21 @@ footer button:hover { background: #ffff33; }
     border-bottom: 2px solid var(--accent);
   }
 }
+/* Layout do chat + chatbot */
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+.App.dark .main-container {
+  flex-direction: row;
+}
+.operator-bot-wrapper {
+  width: 100%;
+  border-top: 2px solid var(--accent);
+}
+.App.dark .operator-bot-wrapper {
+  width: 300px;
+  border-top: none;
+  border-left: 2px solid var(--accent);
+}
+
