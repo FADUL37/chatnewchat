@@ -3,13 +3,8 @@ import "./App.css";
 import OperatorBot from "./OperatorBot";
 import { io } from "socket.io-client";
 
-// Define BACKEND_URL: use env variable if set, else detect local vs production
-const BACKEND_URL =
-  process.env.REACT_APP_BACKEND_URL ||
-  (window.location.hostname === "localhost"
-    ? "http://localhost:3001"
-    : "https://chatnewchat-2999.onrender.com");
-
+// Use apenas a URL de produção ou variável de ambiente
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "https://chatnewchat-2999.onrender.com";
 const socket = io(BACKEND_URL, {
   transports: ["websocket"]
 });
@@ -30,15 +25,9 @@ function App() {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    socket.on("chat message", msg => {
-      setMessages(prev => [...prev, msg]);
-    });
-    socket.on("media message", msg => {
-      setMessages(prev => [...prev, msg]);
-    });
-    socket.on("user list", users => {
-      setOnlineUsers(users);
-    });
+    socket.on("chat message", msg => setMessages(prev => [...prev, msg]));
+    socket.on("media message", msg => setMessages(prev => [...prev, msg]));
+    socket.on("user list", users => setOnlineUsers(users));
     return () => {
       socket.off("chat message");
       socket.off("media message");
@@ -60,15 +49,7 @@ function App() {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
-      setSelectedMedia({
-        user: nickname,
-        type: file.type.split("/")[0],
-        data: reader.result,
-        fileName: file.name,
-        fileType: file.type
-      });
-    };
+    reader.onload = () => setSelectedMedia({ user: nickname, type: file.type.split("/")[0], data: reader.result, fileName: file.name, fileType: file.type });
     reader.readAsDataURL(file);
     e.target.value = null;
   };
@@ -98,22 +79,13 @@ function App() {
       .catch(() => alert("Erro ao acessar o microfone."));
   };
 
-  const stopRecording = () => {
-    mediaRecorderRef.current?.stop();
-    setRecording(false);
-  };
+  const stopRecording = () => { mediaRecorderRef.current?.stop(); setRecording(false); };
 
   const sendRecordedAudio = () => {
     if (!audioPreview) return;
     const reader = new FileReader();
     reader.onload = () => {
-      socket.emit("media message", {
-        user: audioPreview.user,
-        type: audioPreview.type,
-        data: reader.result,
-        fileName: audioPreview.fileName,
-        fileType: audioPreview.fileType
-      });
+      socket.emit("media message", { user: audioPreview.user, type: audioPreview.type, data: reader.result, fileName: audioPreview.fileName, fileType: audioPreview.fileType });
       URL.revokeObjectURL(audioPreview.url);
       setAudioPreview(null);
     };
@@ -128,17 +100,8 @@ function App() {
         </button>
         <div className="login-card">
           <h1>Digite seu apelido</h1>
-          <input
-            value={nickname}
-            onChange={e => setNickname(e.target.value)}
-            placeholder="Seu apelido"
-          />
-          <button onClick={() => {
-            if (nickname.trim()) {
-              socket.emit("set nickname", nickname.trim());
-              setNicknameSet(true);
-            }
-          }}>
+          <input value={nickname} onChange={e => setNickname(e.target.value)} placeholder="Seu apelido" />
+          <button onClick={() => { if (nickname.trim()) { socket.emit("set nickname", nickname.trim()); setNicknameSet(true); } }}>
             Entrar
           </button>
         </div>
@@ -154,12 +117,7 @@ function App() {
       <div className="chat-container">
         <header>
           <h2>Olá, {nickname}</h2>
-          <button onClick={() => {
-            socket.disconnect();
-            window.location.reload();
-          }}>
-            Sair
-          </button>
+          <button onClick={() => { socket.disconnect(); window.location.reload(); }}>Sair</button>
         </header>
         <section className="messages">
           {messages.map((msg, i) => (
@@ -174,35 +132,12 @@ function App() {
           <div ref={messagesEndRef} />
         </section>
         <footer>
-          <input
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && sendMessage()}
-            placeholder="Digite sua mensagem..."
-          />
+          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && sendMessage()} placeholder="Digite sua mensagem..." />
           <button onClick={sendMessage}>Enviar</button>
-          <label className="file-label">
-            📁<input type="file" accept="image/*,video/*" onChange={handleMediaSelect} hidden />
-          </label>
-          {selectedMedia && (
-            <div className="preview">
-              {selectedMedia.type === "image"
-                ? <img src={selectedMedia.data} alt="preview" />
-                : <video controls src={selectedMedia.data} />}
-              <button onClick={sendSelectedMedia}>Enviar</button>
-            </div>
-          )}
-          {!audioPreview && (
-            <button onClick={recording ? stopRecording : startRecording}>
-              {recording ? "Parar Gravação" : "Gravar Áudio"}
-            </button>
-          )}
-          {audioPreview && (
-            <div className="preview">
-              <audio controls src={audioPreview.url} />
-              <button onClick={sendRecordedAudio}>Enviar</button>
-            </div>
-          )}
+          <label className="file-label">📁<input type="file" accept="image/*,video/*" onChange={handleMediaSelect} hidden /></label>
+          {selectedMedia && (<div className="preview">{selectedMedia.type === "image" ? <img src={selectedMedia.data} alt="preview" /> : <video controls src={selectedMedia.data} />}<button onClick={sendSelectedMedia}>Enviar</button></div>)}
+          {!audioPreview && (<button onClick={recording ? stopRecording : startRecording}>{recording ? "Parar Gravação" : "Gravar Áudio"}</button>)}
+          {audioPreview && (<div className="preview"><audio controls src={audioPreview.url} /><button onClick={sendRecordedAudio}>Enviar</button></div>)}
         </footer>
       </div>
       <OperatorBot />
