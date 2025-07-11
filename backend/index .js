@@ -13,7 +13,8 @@ const app = express();
 app.use(cors({
   origin: [
     'https://chatnewchat-999.onrender.com',  // frontend em produção
-      ],
+    'http://localhost:3000'                  // frontend local
+  ],
   credentials: true
 }));
 
