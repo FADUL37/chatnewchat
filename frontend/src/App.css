@@ -5,13 +5,10 @@
 
 :root {
   --bg-dark: #000;
-  --accent: #ffd600;      /* Pacman yellow */
-  --text: #ffffff;
-  --panel: rgba(20, 20, 20, 0.8);
-  --ghost-red: #ff0000;
-  --ghost-pink: #ff69b4;
-  --ghost-cyan: #00ffff;
-  --ghost-orange: #ffa500;
+  --panel: rgba(20,20,20,0.8);
+  --accent: #00e5ff;       /* Neon azul/turquesa */
+  --accent-light: rgba(0,229,255,0.2);
+  --text: #e0e0e0;
 }
 
 * {
@@ -19,28 +16,14 @@
   padding: 0;
   box-sizing: border-box;
 }
-html,
-body,
-#root {
+html, body, #root {
   height: 100%;
-}
-
-body {
+  background: var(--bg-dark);
   font-family: "Press Start 2P", monospace;
-  background-color: var(--bg-dark);
-  /* Padrão de pontos (pellets) */
-  background-image: radial-gradient(circle, var(--accent) 10%, transparent 11%);
-  background-size: 40px 40px;
   color: var(--text);
 }
 
-.App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 1rem;
-}
-
+/* Botão Modo */
 .mode-toggle {
   position: absolute;
   top: 1rem;
@@ -54,26 +37,24 @@ body {
   transition: background 0.2s;
 }
 .mode-toggle:hover {
-  background: rgba(255, 214, 0, 0.2);
+  background: var(--accent-light);
 }
 
+/* Tela de login */
 .login-card {
   background: var(--panel);
   border: 2px solid var(--accent);
   padding: 2rem;
-  margin-top: 10vh;
+  margin: 10vh auto;
   border-radius: 0.5rem;
   text-align: center;
   width: 300px;
-  box-shadow: 0 0 20px rgba(255, 214, 0, 0.4);
-}
-.login-card h1 {
-  margin-bottom: 1rem;
+  box-shadow: 0 0 20px var(--accent-light);
 }
 .login-card input,
 .login-card button {
   font-family: inherit;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 .login-card input {
   width: 100%;
@@ -93,37 +74,44 @@ body {
   cursor: pointer;
 }
 .login-card button:hover {
-  background: #ffff33;
+  background: #00ffff;
 }
 
-.chat-wrapper {
+/* Container principal (chat + chatbot) */
+.main-container {
   display: flex;
   width: 90%;
   max-width: 1100px;
   height: 80vh;
+  margin: 2rem auto;
+  background: var(--panel);
   border: 2px solid var(--accent);
   border-radius: 0.5rem;
+  box-shadow: 0 0 30px var(--accent-light);
   overflow: hidden;
-  box-shadow: 0 0 30px rgba(255, 214, 0, 0.5);
+}
+
+/* Chat + lista de usuários */
+.chat-wrapper {
+  display: flex;
+  flex: 2;
+  flex-direction: column;
 }
 
 /* Lista de usuários online */
 .online-users {
-  width: 220px;
   background: var(--panel);
-  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
 }
 .online-users h3 {
   font-size: 0.8rem;
-  margin-bottom: 1rem;
   color: var(--accent);
+  margin-bottom: 0.5rem;
 }
 .online-users ul {
   list-style: none;
-  flex: 1;
+  max-height: 8rem;
   overflow-y: auto;
 }
 .online-users li {
@@ -132,25 +120,25 @@ body {
   background: #111;
   border: 1px solid var(--accent);
   border-radius: 0.25rem;
+  font-size: 0.75rem;
   text-align: center;
-  font-size: 0.8rem;
 }
 
-/* Painel de chat (mensagens + input) */
+/* Painel de Chat */
 .chat-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--panel);
 }
 
-/* Header */
+/* Header do chat */
 .chat-panel header {
   padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid var(--accent);
+  background: rgba(0,0,0,0.5);
 }
 .chat-panel header h2 {
   font-size: 0.9rem;
@@ -161,14 +149,18 @@ body {
   padding: 0.5rem 1rem;
   cursor: pointer;
   font-family: inherit;
+  font-size: 0.75rem;
 }
-.chat-panel header button:hover { background: #ffff33; }
+.chat-panel header button:hover {
+  background: #00ffff;
+}
 
-/* Mensagens */
+/* Área de mensagens */
 .messages {
   flex: 1;
-  overflow-y: auto;
   padding: 1rem;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.3);
 }
 .messages .message,
 .messages .info {
@@ -178,7 +170,7 @@ body {
   word-wrap: break-word;
 }
 .messages .message {
-  background: rgba(255, 214, 0, 0.1);
+  background: rgba(0,229,255,0.1);
   border-left: 4px solid var(--accent);
 }
 .messages .info {
@@ -194,37 +186,41 @@ body {
   border-radius: 0.25rem;
 }
 
-/* Footer */
+/* Footer com input e botões */
 footer {
   display: flex;
   align-items: center;
   padding: 1rem;
   border-top: 2px solid var(--accent);
+  background: rgba(0,0,0,0.5);
 }
 footer input[type="text"] {
   flex: 1;
   padding: 0.75rem;
+  margin-right: 0.5rem;
   background: transparent;
   border: 2px solid var(--accent);
+  border-radius: 0.25rem;
   color: var(--text);
   font-family: inherit;
   font-size: 0.75rem;
-  border-radius: 0.25rem;
-  margin-right: 0.5rem;
 }
 footer button {
-  font-family: inherit;
-  font-size: 0.75rem;
+  margin-right: 0.5rem;
   background: var(--accent);
   border: none;
   padding: 0.75rem 1rem;
   cursor: pointer;
+  font-family: inherit;
+  font-size: 0.75rem;
+}
+footer button:hover {
+  background: #00ffff;
+}
+.file-label {
+  cursor: pointer;
   margin-right: 0.5rem;
 }
-footer button:hover { background: #ffff33; }
-.file-label { cursor: pointer; margin-right: 0.5rem; }
-
-/* Preview de mídia */
 .preview {
   display: flex;
   align-items: center;
@@ -239,33 +235,24 @@ footer button:hover { background: #ffff33; }
   margin-right: 0.5rem;
 }
 
-/* Responsivo: empilha em telas menores */
-@media (max-width: 768px) {
-  .chat-wrapper {
-    flex-direction: column;
-    height: auto;
-  }
-  .online-users {
-    width: 100%;
-    border-right: none;
-    border-bottom: 2px solid var(--accent);
-  }
-}
-/* Layout do chat + chatbot */
-.main-container {
-  display: flex;
-  flex-direction: column;
-}
-.App.dark .main-container {
-  flex-direction: row;
-}
+/* Chatbot (OperatorBot) à direita */
 .operator-bot-wrapper {
-  width: 100%;
-  border-top: 2px solid var(--accent);
-}
-.App.dark .operator-bot-wrapper {
-  width: 300px;
-  border-top: none;
+  flex: 1;
+  background: var(--panel);
+  padding: 1rem;
   border-left: 2px solid var(--accent);
+  overflow-y: auto;
 }
 
+/* Responsivo: empilha em telas muito pequenas */
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+    height: auto;
+    margin: 1rem;
+  }
+  .operator-bot-wrapper {
+    border-left: none;
+    border-top: 2px solid var(--accent);
+  }
+}
