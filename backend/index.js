@@ -1,7 +1,5 @@
 // index.js (backend)
-// Configura Express, CORS e Socket.IO para aceitar conexões do seu front em
-// https://chatnewchat-999.onrender.com, do localhost e do seu domínio de produção.
-// :contentReference[oaicite:0]{index=0}
+// Removida a tipagem errada "cconst" e corrigido para "const"
 
 const express = require('express');
 const http = require('http');
@@ -9,27 +7,20 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 
 const app = express();
-// CORS global para rotas HTTP
-app.use(cors({
-  origin: [
-    'https://chatnewchat-999.onrender.com',  // frontend em produção
-    'http://localhost:3000'                  // frontend local
-  ],
-  credentials: true
-}));
+app.use(cors());
 
 const server = http.createServer(app);
 
-// Instância do Socket.IO com CORS específico
+// CORREÇÃO: trocar "cconst" por "const" na instância do Socket.IO
 const io = new Server(server, {
   cors: {
     origin: [
       'https://chatnewchat-999.onrender.com',
-      'https://novochatchat-p67l.onrender.com', // manter legado se quiser
-      'https://chatnewchat-2999.onrender.com', // domínio do back em produção
+      'https://novochatchat-p67l.onrender.com',
+      'https://chatnewchat-2999.onrender.com',  // <-- novo domínio
       'http://localhost:3000'
     ],
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET','POST','OPTIONS'],
     credentials: true
   }
 });
